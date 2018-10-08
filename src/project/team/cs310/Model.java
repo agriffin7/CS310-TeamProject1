@@ -14,8 +14,7 @@ public class Model {
     private Badge badge;
     //EXAMPLE INSTANCE FIELD START
 }
-    
-    
+   
     //EXAMPLE CONSTRUCTORS START
     class TASDatabase {
         /*This class represents the application's connection to the TAS database.
@@ -29,7 +28,7 @@ public class Model {
         private Connection createConnection;
         private Statement statement;
         
-        public TASDatabase() {
+        public void Connection() {
         
         
         try{
@@ -52,8 +51,9 @@ public class Model {
         catch(Exception ex){
             System.out.println(ex);
         } 
-        
     }
+        
+}
 
     class TASLogic {
         /*TASLogic will implement:
@@ -64,13 +64,6 @@ public class Model {
         
         
     }
-    
-//    class Badge {
-        /*Badge class will contain information from the database about a single employee badge.
-        The Badge class will be used to represent already-existing badge rulesets from the database.*/
-        
-        
-//}
 
     class Badge 
     {
