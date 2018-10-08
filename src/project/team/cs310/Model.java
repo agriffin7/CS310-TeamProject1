@@ -25,6 +25,33 @@ public class Model {
         (See the lecture notes on JDBC for more information and examples on Java database programming.)
         This class should also provide methods which create the objects (Badge, Shift, and Punch).*/
         
+        //CONSTRUCTOR
+        private Connection createConnection;
+        private Statement statement;
+        
+        public TASDatabase() {
+        
+        
+        try{
+        
+        //connect to the database
+        Class.forName("com.mysql.jdbc.Driver").newInstance();
+        
+         //local source
+        String url = "jdbc:mysql://localhost/tas";
+        
+        //create a connection
+        createConnection = DriverManager.getConnection(url, "tasuser", "WarRoomF");
+        
+        
+        //create a statement object:
+        statement = createConnection.createStatement();
+        }
+        
+        
+        catch(Exception ex){
+            System.out.println(ex);
+        } 
         
     }
 
