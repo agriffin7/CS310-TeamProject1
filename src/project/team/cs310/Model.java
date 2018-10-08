@@ -38,13 +38,49 @@ public class Model {
         
     }
     
-    class Badge {
+//    class Badge {
         /*Badge class will contain information from the database about a single employee badge.
         The Badge class will be used to represent already-existing badge rulesets from the database.*/
         
         
+//}
+
+    class Badge 
+    {
+        private String description;
+        private int id;
+        public Badge(int id, String d) 
+        {
+            description = d;
+            this.id = id;
+        }
+    
+    @Override
+    public String toString()
+    {
+        return Integer.toString(id) + " " + description;
     }
 
+    public void setDescription(String description) 
+    {
+        this.description = description;
+    }
+
+    public void setId(int id) 
+    {    
+        this.id = id;
+    }
+
+    public String getDescription() 
+    {
+        return description;
+    }
+
+    public int getId() 
+    {
+        return id;
+    }
+}
     class Punch {
          /*Punch will contain information about the original and adjusted timestamps. 
         These objects will be created and populated by the database class, 
