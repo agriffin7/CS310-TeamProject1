@@ -24,36 +24,47 @@ public class Model {
         (See the lecture notes on JDBC for more information and examples on Java database programming.)
         This class should also provide methods which create the objects (Badge, Shift, and Punch).*/
         
-        //CONSTRUCTOR
-        private Connection createConnection;
-        private Statement statement;
+        Connection conn = null;
+        PreparedStatement pstSelect = null, pstUpdate = null;
+        ResultSet resultset = null;
+        ResultSetMetaData metadata = null;
         
+        String query, key, value;
+        
+        
+        //CONSTRUCTORS
+        //create and implement connection to databse
         public void Connection() {
+            
+            try{
+        
+                //Identify the server
+                String server = ("jdbc:mysql://localhost/tas");
+                String username = "tasuer";
+                String password = "WarRoomF";
+                System.out.println("Connecting to " + server + "...");
+                
+                //load the MYSQL JDBC Driver
+                Class.forName("com.mysql.jdbc.Driver").newInstance();
+                
+                //open the connection
+                conn = DriverManager.getConnection(server, username,password);
+                
+                //test connection
+                if (conn.isValid(0)) {
+                    System.out.println("Connected Successfully!");
+                }
+               
+            }
         
         
-        try{
-        
-        //connect to the database
-        Class.forName("com.mysql.jdbc.Driver").newInstance();
-        
-         //local source
-        String url = "jdbc:mysql://localhost/tas";
-        
-        //create a connection
-        createConnection = DriverManager.getConnection(url, "tasuser", "WarRoomF");
-        
-        
-        //create a statement object:
-        statement = createConnection.createStatement();
+            catch(Exception ex){
+                System.out.println(ex);
+            } 
         }
         
         
-        catch(Exception ex){
-            System.out.println(ex);
-        } 
     }
-        
-}
 
     class TASLogic {
         /*TASLogic will implement:
@@ -69,6 +80,7 @@ public class Model {
     {
         private String description;
         private int id;
+        
         public Badge(int id, String d) 
         {
             description = d;
