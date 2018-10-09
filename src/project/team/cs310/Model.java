@@ -57,7 +57,6 @@ public class Model {
                
             }
         
-        
             catch(Exception ex){
                 System.out.println(ex);
             } 
