@@ -165,7 +165,7 @@ public class Model {
         /*instance field*/
          
          public Shift(){
-             
+             //empty constructor
          }
          
          public Shift(int shiftid, String description, Time timeStart, Time timeStop, int interval, int gracePeriod, int dock, Time lunchStart, Time lunchStop, long lunchBreak, int lunchDeduct){
