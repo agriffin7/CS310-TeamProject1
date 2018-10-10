@@ -10,6 +10,9 @@ import java.sql.*;
 
 public class Model {
     //EXAMPLE INSTANCE FIELD START
+    /* Im still not entirely sure what to do with these or how to use them,
+    We'll figure that out later on however when it comes*/
+    
     private int shiftID, terminalid, punchtypeid, LunchBreak, adjustedTimeStamp;
     protected Badge badge;
     protected Punch punch;
@@ -132,19 +135,19 @@ public class Model {
     public String toString(){
         return Integer.toString(id) + " " + description;
     }
-
+    // set badge description
     public void setDescription(String description){
         this.description = description;
     }
-
+    //set badge ID
     public void setId(int id) {    
         this.id = id;
     }
-
+    //get badge descrption
     public String getDescription() {
         return description;
     }
-
+    //get badge ID
     public int getId() {
         return id;
     }
