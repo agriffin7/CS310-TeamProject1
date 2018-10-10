@@ -11,7 +11,8 @@ import java.sql.*;
 public class Model {
     //EXAMPLE INSTANCE FIELD START
     private int shiftID, terminalid, punchtypeid, LunchBreak, adjustedTimeStamp;
-    private Badge badge;
+    protected Badge badge;
+    protected Punch punch;
     //EXAMPLE INSTANCE FIELD START
 }
    
@@ -23,6 +24,7 @@ public class Model {
         "close()" method so that this connection can be closed in an orderly fashion.
         (See the lecture notes on JDBC for more information and examples on Java database programming.)
         This class should also provide methods which create the objects (Badge, Shift, and Punch).*/
+
         
         Connection conn = null;
         PreparedStatement pstSelect = null, pstUpdate = null;
@@ -63,55 +65,91 @@ public class Model {
         }
         
         
+        //Pull queries from the database
+        
+        
+        /*constructors for creating Punch Objects*/
+        //set punch object
+        public void setPunch(){
+            
+        }
+        //get punch object
+        public Punch getPunch(int punchInt){
+            
+            
+             //remember to change these once constructors are finished
+            return null;
+        }
+        
+        /*constructors for creating Badge Objects*/
+        //set badge object
+        public void setBadge(){
+            
+        }
+        //get badge object
+        public Badge getBadge(String ID){
+            
+            
+            //remember to change these once constructors are finished
+            return null;
+        }
+        
+        
+        /*constructors for shift rules*/
+        
+        //get shift (gets the rulesets for the badge?)
+        public Shift getShift(Badge b){
+            
+            
+            //remember to change these once constructors are finished
+            return null;
+        }
+        
+        
     }
 
     class TASLogic {
         /*TASLogic will implement:
         The business logic (such as computing the total minutes accrued by an employee within a single day)
         The application logic (such as converting an ordered list of Punch objects to JSON format)
-        This class will initially be empty, so !!THERE IS NOTHING TO DO FOR THIS IN FEATURE 1!!; 
+        This class will initially be empty, so !!THERE IS NOTHING TO DO FOR THIS IN FEATURE !!; 
         the business and application logic will be added as static methods during subsequent features.*/
         
         
     }
 
-    class Badge 
-    {
+    class Badge {
+        
         private String description;
         private int id;
         
-        public Badge(int id, String d) 
-        {
+        public Badge(int id, String d){
             description = d;
             this.id = id;
         }
     
     @Override
-    public String toString()
-    {
+    public String toString(){
         return Integer.toString(id) + " " + description;
     }
 
-    public void setDescription(String description) 
-    {
+    public void setDescription(String description){
         this.description = description;
     }
 
-    public void setId(int id) 
-    {    
+    public void setId(int id) {    
         this.id = id;
     }
 
-    public String getDescription() 
-    {
+    public String getDescription() {
         return description;
     }
 
-    public int getId() 
-    {
+    public int getId() {
         return id;
     }
 }
+
     class Punch {
          /*Punch will contain information about the original and adjusted timestamps. 
         These objects will be created and populated by the database class, 
