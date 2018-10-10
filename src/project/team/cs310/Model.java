@@ -56,6 +56,8 @@ public class Model {
         //Pull queries from the database
         
         
+        //add new queries to the database
+        
         /*constructors for creating Punch Objects*/
         //set punch object
         public void setPunch(){
