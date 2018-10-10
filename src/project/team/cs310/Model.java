@@ -2,6 +2,7 @@ package project.team.cs310;
 import java.sql.*;
 
 
+
 public class Model {
    
     //EXAMPLE CONSTRUCTORS START
