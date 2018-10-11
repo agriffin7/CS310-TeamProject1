@@ -1,5 +1,7 @@
 package project.team.cs310;
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 
@@ -74,10 +76,11 @@ public class Model {
         //add new queries to the database
         
         /*constructors for creating Punch Objects*/
-        //set punch object
+       /* //set punch object
         public void setPunch(){
             
-        }
+        }*/
+        
         //get punch object
         public Punch getPunch(int punchInt){
             
@@ -87,17 +90,87 @@ public class Model {
         }
         
         /*constructors for creating Badge Objects*/
+        
+        /*
         //set badge object
         public void setBadge(){
             
-        }
+        }*/
+        
+        
+        
         //get badge object
         public Badge getBadge(String ID){
             
+            try{
+                
+                //prepare the query
+                query = "SELECT badgeid FROM employee";
+                pstSelect = conn.prepareStatement(query);
             
-            //remember to change these once constructors are finished
+                //execute the query
+                System.out.println("Submitting Query...");
+                boolean hasresults = pstSelect.execute();
+            
+                //get results
+                System.out.println("Getting Results...");
+            
+                while (hasresults || pstSelect.getUpdateCount() != -1){
+                
+                    if (hasresults){
+                    
+                        //get result metadata
+                        resultset = pstSelect.getResultSet();
+                        metadata = resultset.getMetaData();
+                        int columnCount = metadata.getColumnCount();
+                    
+                        /*get the key data*/
+                        for (int i = 1; i <= columnCount; i++){
+                            key = metadata.getColumnName(i);
+                        
+                            System.out.format("%20s",key);
+                        }
+                        /*get data*/
+                        while(resultset.next()){
+                            /*begin next ResultRow set*/
+                            System.out.println();
+                            
+                            /*loop through ResultSet Columns, print values*/
+                        
+                            for (int i = 1; i <= columnCount; i++){
+                            
+                                value = resultset.getString(i);
+                            
+                                if(resultset.wasNull()){
+                                    System.out.format("%20s", "NULL");
+                                }
+                                else{
+                                    System.out.format("%20s", value);
+                              }
+                            }
+                        }
+                    }
+                    else{
+                        int resultCount = pstSelect.getUpdateCount();
+                    
+                        if (resultCount == -1){
+                            break;
+                        }
+                    }
+                    //check for more data
+                    hasresults = pstSelect.getMoreResults();
+                }
+                
+            }
+            catch (SQLException ex) {
+                Logger.getLogger(TASDatabase.class.getName()).log(Level.SEVERE, null, ex);
+                return null;
+            }
+            
             return null;
         }
+        
+        
         
         
         /*constructors for shift rules*/
@@ -109,7 +182,15 @@ public class Model {
             //remember to change these once constructors are finished
             return null;
         }
-        
+        //close the connection
+        public void Close(){
+            //is ok i guess
+            try {
+                conn.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(TASDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         
     }
 
@@ -171,6 +252,131 @@ public class Model {
         /*Shift will contain the shift ruleset
         (that is, the starting time, stopping time, and other parameters of a single shift).*/
         
+        /*instance field*/
+         private int shiftid, interval, dock, gracePeriod, lunchDeduct;
+         private String description;
+         private long lunchBreak;
+         private Time timeStart = new Time(0);
+         private Time timeStop = new Time(0);
+         private Time lunchStart = new Time(0);
+         private Time lunchStop = new Time(0);
+        /*instance field*/
         
+         public Shift(){
+             //empty constructor
     }
 
+         public Shift(int shiftid, String description, Time timeStart, Time timeStop, int interval, int gracePeriod, int dock, Time lunchStart, Time lunchStop, long lunchBreak, int lunchDeduct){
+            this.shiftid = shiftid;
+            this.description = description;
+            this.timeStart = timeStart;
+            this.timeStop = timeStop;
+            this.interval = interval;
+            this.gracePeriod = gracePeriod;
+            this.dock = dock;
+            this.lunchStart = lunchStart;
+            this.lunchStop = lunchStop;
+            this.lunchBreak = lunchBreak;
+            this.lunchDeduct = lunchDeduct;
+            
+         }
+         
+         /*GETTER METHODS START*/
+        public int getShiftid() {
+            return shiftid;
+        }
+         
+        public String getDescription() {
+            return description;
+        }
+        
+        public Time getTimeStart(){
+            return timeStop;
+        }
+        
+        public Time getTimeStop(){
+            return timeStop;
+        }
+        
+        public long getInterval() {
+            return interval;
+        }
+        
+        public long getGracePeriod() {
+            return gracePeriod;
+        }
+        
+        public long getDock(){
+            return dock;
+        }
+        
+        public Time getLunchStart() {
+            return lunchStart;
+        }
+
+        public Time getLunchStop() {
+            return lunchStop;
+        }
+        
+        public long getLunchBreak(){
+            return lunchBreak;
+        }
+        
+        public long getLunchDeduct() {
+            return lunchDeduct;
+        }
+        
+        /*GETTER METHODS END*/
+        
+
+        /*SETTER METHODS START*/
+        public void setShiftid(int shiftid) {
+            this.shiftid = shiftid;
+        }
+        
+        public void setDescription(String description) {
+            this.description = description;
+        }
+        
+        public void setTimeStart(Time timeStart) {
+            this.timeStart = timeStart;
+        }
+
+        public void setTimeStop(Time timeStop) {
+            this.timeStop = timeStop;
+        }
+        
+        public void setInterval(int interval) {
+            this.interval = interval;
+        }
+        
+        public void setGracePeriod(int gracePeriod) {
+            this.gracePeriod = gracePeriod;
+        }
+
+        public void setLunchStart(Time lunchStart) {
+            this.lunchStart = lunchStart;
+        }
+
+        public void setLunchStop(Time lunchStop) {
+            this.lunchStop = lunchStop;
+        }
+
+        public void setLunchBreak(long lunchBreak) {
+            this.lunchBreak = lunchBreak;
+        }
+
+        public void setLunchDeduct(int lunchDeduct) {
+            this.lunchDeduct = lunchDeduct;
+        }
+
+        public void setDock(int dock) {
+            this.dock = dock;
+        }
+        /*SETTER METHODS END*/
+        
+        @Override
+        public String toString(){
+            return Integer.toString(shiftid)+" "+description;
+        }  
+    }
