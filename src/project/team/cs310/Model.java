@@ -46,7 +46,7 @@ public class Model {
         
                 //Identify the server
                 String server = ("jdbc:mysql://localhost/tas");
-                String username = "tasuer";
+                String username = "tasuser";
                 String password = "WarRoomF";
                 System.out.println("Connecting to " + server + "...");
                 
