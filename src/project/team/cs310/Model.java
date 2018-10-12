@@ -69,10 +69,19 @@ public class Model {
         }
         //get punch object
         public Punch getPunch(int punchInt){
+            try{
+        
+                
+                
+                
+              
+             //remember to change these once constructors are finished  
+             return null;
             
-            
-             //remember to change these once constructors are finished
-            return null;
+                
+            }catch(Exception ex){System.out.println(ex);
+             
+            return null;}
         }
         
         /*constructors for creating Badge Objects*/
