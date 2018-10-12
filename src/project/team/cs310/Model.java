@@ -29,9 +29,8 @@ public class Model {
         "close()" method so that this connection can be closed in an orderly fashion.
         (See the lecture notes on JDBC for more information and examples on Java database programming.)
         This class should also provide methods which create the objects (Badge, Shift, and Punch).*/
-
-        
         Connection conn = null;
+        
         PreparedStatement pstSelect = null, pstUpdate = null;
         ResultSet resultset = null;
         ResultSetMetaData metadata = null;
@@ -55,7 +54,7 @@ public class Model {
                 Class.forName("com.mysql.jdbc.Driver").newInstance();
                 
                 //open the connection
-                conn = DriverManager.getConnection(server, username,password);
+                Connection conn = DriverManager.getConnection(server, username,password);
                 
                 //test connection
                 if (conn.isValid(0)) {
@@ -176,7 +175,7 @@ public class Model {
         /*constructors for shift rules*/
         
         //get shift (gets the rulesets for the badge?)
-        public Shift getShift(Badge b){
+        public Shift getShift(int shiftInt){
             
             
             //remember to change these once constructors are finished
