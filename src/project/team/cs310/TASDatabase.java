@@ -56,10 +56,10 @@ import java.util.logging.*;
         //add new queries to the database
         
         /*constructors for creating Punch Objects*/
-       /* //set punch object
+        //set punch object
         public void setPunch(){
             
-        }*/
+        }
         
         //get punch object
         public Punch getPunch(int punchInt){
@@ -71,22 +71,27 @@ import java.util.logging.*;
         
         /*constructors for creating Badge Objects*/
         
-        /*
+        
         //set badge object
         public void setBadge(){
             
-        }*/
+        }
         
         
         
         //get badge object
         public Badge getBadge(String ID){
+            Connection();
             
             try{
+                int BadgeID = 0;
+                String FName = null;
+                String MName = null;
+                String LName = null;
+                String TotalName = null;
                 
-                Connection();
                 //prepare the query
-                query = "SELECT badgeid FROM employee";
+                query = "SELECT * FROM badge";
                 pstSelect = conn.prepareStatement(query);
             
                 //execute the query
@@ -108,26 +113,37 @@ import java.util.logging.*;
                         /*get the key data*/
                         for (int i = 1; i <= columnCount; i++){
                             key = metadata.getColumnName(i);
-                        
-                            System.out.format("%20s",key);
                         }
+                        
                         /*get data*/
                         while(resultset.next()){
                             /*begin next ResultRow set*/
-                            System.out.println();
                             
                             /*loop through ResultSet Columns, print values*/
-                        
+                            //declare a string array
+                            String[] ValueArray = new String[2];
+                            
+                            
                             for (int i = 1; i <= columnCount; i++){
-                            
                                 value = resultset.getString(i);
-                            
-                                if(resultset.wasNull()){
-                                    System.out.format("%20s", "NULL");
+                                
+                                if (i == 1){
+                                   ValueArray[0] = value; 
                                 }
-                                else{
-                                    System.out.format("%20s", value);
-                              }
+                                else if (i == 2){
+                                    ValueArray[1] = value;
+                                }
+                                
+                                if(ValueArray[0].equals(ID)){
+                                   if (ValueArray[1] == value){
+                                       //declare a new badge
+                                       Badge badge = new Badge();
+                                       
+                                      badge.setId(ValueArray[0]);
+                                      badge.setDescription(ValueArray[1]);
+                                      return badge; 
+                                    }
+                                }   
                             }
                         }
                     }
@@ -156,13 +172,22 @@ import java.util.logging.*;
         
         /*constructors for shift rules*/
         
-        //get shift (gets the rulesets for the badge?)
-        public Shift getShift(int shiftInt){
+        //get shifts 
+        //(gets the rulesets for the badge?)
+        public Shift getShift(int shiftID){
             
             
             //remember to change these once constructors are finished
             return null;
         }
+        
+        //this does badges
+        public Shift getShift (Badge badge){
+            
+            //remember to change these once finished
+            return null;
+        }
+        
         //close the connection
         public void Close(){
             //is ok i guess
