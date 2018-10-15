@@ -1,8 +1,9 @@
 package project.team.cs310;
 
-import java.sql.Time;
+import java.sql.*;
 import java.text.SimpleDateFormat;
-
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 public class Shift {
     /*Shift will contain the shift ruleset
@@ -70,69 +71,52 @@ public class Shift {
         public Time getLunchStart() {
             return lunchStart;
         }
-
-        public Time getLunchStop() {
-            return lunchStop;
-        }
         
-        public long getLunchBreak(){
-            return lunchBreak;
-        }
-        
-        public long getLunchDeduct() {
-            return lunchDeduct;
-        }
-        
-        /*GETTER METHODS END*/
-        
-
-        /*SETTER METHODS START*/
-        public void setShiftid(int shiftid) {
+        public void setShiftid(int shiftid){
             this.shiftid = shiftid;
         }
         
-        public void setDescription(String description) {
+        public void setDescription(String description){
             this.description = description;
-        }
-        
-        public void setTimeStart(Time timeStart) {
-            this.timeStart = timeStart;
-        }
-
-        public void setTimeStop(Time timeStop) {
-            this.timeStop = timeStop;
-        }
-        
-        public void setInterval(int interval) {
-            this.interval = interval;
-        }
-        
-        public void setGracePeriod(int gracePeriod) {
-            this.gracePeriod = gracePeriod;
-        }
-
-        public void setLunchStart(Time lunchStart) {
-            this.lunchStart = lunchStart;
-        }
-
-        public void setLunchStop(Time lunchStop) {
-            this.lunchStop = lunchStop;
-        }
-
-        public void setLunchBreak(long lunchBreak) {
-            this.lunchBreak = lunchBreak;
-        }
-
-        public void setLunchDeduct(int lunchDeduct) {
-            this.lunchDeduct = lunchDeduct;
         }
 
         public void setDock(int dock) {
             this.dock = dock;
         }
         
+        public void setTimeStart(Time timeStart){
+            this.timeStart = timeStart;
+        }
+        
+        public void setTimeStop(Time timeStop){
+            this.timeStop = timeStop;
+        }
+        
+        public void setGracePeriod(int gracePeriod){
+            this.gracePeriod = gracePeriod;
+        }
+        
+        public void setInterval(int interval){
+            this.interval = interval;
+        }
+        
         public void setTimeInterval(long timeInterval){
             this.timeInterval = timeInterval;
+        }
+        
+        public void setLunchStart(Time lunchStart){
+            this.lunchStart = lunchStart;
+        }
+        
+        public void setLunchStop(Time lunchStop){
+            this.lunchStop = lunchStop;
+        }
+        
+        public void setLunchBreak(long lunchBreak){
+            this.lunchBreak = lunchBreak;
+        }
+        public void setLunchDeduct(int lunchDeduct){
+            this.lunchDeduct = lunchDeduct;
         }
         
         /*SETTER METHODS END*/
