@@ -1,6 +1,7 @@
 package project.team.cs310;
 
 import java.sql.Time;
+import java.text.SimpleDateFormat;
 
 
 public class Shift {
@@ -11,6 +12,7 @@ public class Shift {
          private int shiftid, interval, dock, gracePeriod, lunchDeduct;
          private String description;
          private long lunchBreak;
+         private long timeInterval;
          private Time timeStart = new Time(0);
          private Time timeStop = new Time(0);
          private Time lunchStart = new Time(0);
@@ -46,7 +48,7 @@ public class Shift {
         }
         
         public Time getTimeStart(){
-            return timeStop;
+            return timeStart;
         }
         
         public Time getTimeStop(){
@@ -128,10 +130,27 @@ public class Shift {
         public void setDock(int dock) {
             this.dock = dock;
         }
+        
+        public void setTimeInterval(long timeInterval){
+            this.timeInterval = timeInterval;
+        }
+        
         /*SETTER METHODS END*/
         
         @Override
         public String toString(){
-            return Integer.toString(shiftid)+" "+description;
+             String output = "";
+        String startTime = (new SimpleDateFormat("HH:mm")).format(timeStart.getTime());
+        String stopTime = (new SimpleDateFormat("HH:mm")).format(timeStop.getTime());
+        String lunchStartTime = (new SimpleDateFormat("HH:mm")).format(lunchStart.getTime());
+        String lunchStopTime = (new SimpleDateFormat("HH:mm")).format(lunchStop.getTime());
+        output += description + ": ";
+        output += startTime + " - ";
+        output += stopTime + " (";
+        output += timeInterval + " minutes);";
+        output += " Lunch: " + lunchStartTime + " - ";
+        output += lunchStopTime + " (";
+        output += lunchBreak + " minutes)";
+        return output;
         }
 }
