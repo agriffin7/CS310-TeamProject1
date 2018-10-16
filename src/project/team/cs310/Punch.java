@@ -14,26 +14,80 @@ public class Punch {
         public Punch(){}
         private GregorianCalendar originalTime; //check
         private GregorianCalendar adjustedTime; //check
-        private int shiftId; //check
-        private String badgeId; //check
-        private String punchId;
-        private int terminalId; //check
-        private int punchType; //check
-        private String punchDescription;
+        private int shiftID; //in constructor
+        private String badgeID; //in constructor
+        private int terminalID; //in constructor
+        private int punchType; //in constructor
         private String simpleDateFormat; //check
-        private String eventData;
         
-        public Punch(int terminalId, String badgeId, int shiftId, long originalts, int punchType) {
+        public Punch(int shiftID, String badgeID, int terminalID, int punchType, long tStamp) {
             originalTime = new GregorianCalendar();
             adjustedTime = new GregorianCalendar();
-            this.terminalId = terminalId;
-            this.badgeId = badgeId;
-            this.shiftId = shiftId;
+            this.shiftID = shiftID;
+            this.badgeID = badgeID;
+            this.terminalID = terminalID;
             this.punchType = punchType;
+            long originaltimeStamp = tStamp;
+            originalTime.setTimeInMillis(originaltimeStamp);
+            originalTime = new GregorianCalendar();
             
             simpleDateFormat = new SimpleDateFormat("EEE MM/dd/YYYY HH:mm:ss").format(originalTime.getTime()).toUpperCase();
         }
-        
-        
+
+    public GregorianCalendar getOriginalTime() {
+        return originalTime;
+    }
+
+    public void setOriginalTime(GregorianCalendar originalTime) {
+        this.originalTime = originalTime;
+    }
+
+    public GregorianCalendar getAdjustedTime() {
+        return adjustedTime;
+    }
+
+    public void setAdjustedTime(GregorianCalendar adjustedTime) {
+        this.adjustedTime = adjustedTime;
+    }
+
+    public int getShiftID() {
+        return shiftID;
+    }
+
+    public void setShiftID(int shiftID) {
+        this.shiftID = shiftID;
+    }
+
+    public String getBadgeID() {
+        return badgeID;
+    }
+
+    public void setBadgeID(String badgeID) {
+        this.badgeID = badgeID;
+    }
+
+    public int getTerminalID() {
+        return terminalID;
+    }
+
+    public void setTerminalID(int terminalID) {
+        this.terminalID = terminalID;
+    }
+
+    public int getPunchType() {
+        return punchType;
+    }
+
+    public void setPunchType(int punchType) {
+        this.punchType = punchType;
+    }
+
+    public String getSimpleDateFormat() {
+        return simpleDateFormat;
+    }
+
+    public void setSimpleDateFormat(String simpleDateFormat) {
+        this.simpleDateFormat = simpleDateFormat;
+    }
         
 }
