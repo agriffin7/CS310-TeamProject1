@@ -14,13 +14,14 @@ public class Punch {
         public Punch(){}
         private GregorianCalendar originalTime; //check
         private GregorianCalendar adjustedTime; //check
+        private int ID;
         private int shiftID; //in constructor
         private String badgeID; //in constructor
         private int terminalID; //in constructor
         private int punchType; //in constructor
         private String simpleDateFormat; //check
         
-        public Punch(int shiftID, String badgeID, int terminalID, int punchType, long tStamp) {
+        public Punch(int ID, int shiftID, String badgeID, int terminalID, int punchType, long tStamp) {
             originalTime = new GregorianCalendar();
             adjustedTime = new GregorianCalendar();
             this.shiftID = shiftID;
@@ -30,6 +31,7 @@ public class Punch {
             long originaltimeStamp = tStamp;
             originalTime.setTimeInMillis(originaltimeStamp);
             originalTime = new GregorianCalendar();
+            this.ID = ID;
             
             simpleDateFormat = new SimpleDateFormat("EEE MM/dd/YYYY HH:mm:ss").format(originalTime.getTime()).toUpperCase();
         }
@@ -48,6 +50,14 @@ public class Punch {
 
     public void setAdjustedTime(GregorianCalendar adjustedTime) {
         this.adjustedTime = adjustedTime;
+    }
+    
+    public void setID(int ID){
+        this.ID = ID;
+    }
+    
+    public int getID(){
+        return ID;
     }
 
     public int getShiftID() {
@@ -88,6 +98,10 @@ public class Punch {
 
     public void setSimpleDateFormat(String simpleDateFormat) {
         this.simpleDateFormat = simpleDateFormat;
+    }
+    
+    public String printOriginalTimestamp(){
+        return "#" + badgeID + " CLOCKED IN: " + originalTime;
     }
         
 }
