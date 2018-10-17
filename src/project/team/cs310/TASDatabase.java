@@ -3,6 +3,8 @@ import java.sql.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.logging.*;
 
     //EXAMPLE CONSTRUCTORS START
@@ -61,8 +63,48 @@ import java.util.logging.*;
         /*constructors for creating Punch Objects*/
         //set punch object
         public void setPunch(){
-            
         }
+        
+        
+        //insert punch object into database
+        public int insertPunch(Punch p) throws SQLException{
+            int result =0, key=0;
+            ResultSet keys = null;
+            
+            //get punch stuff
+            int ID = p.getID();
+            int shiftID = p.getShiftID();
+            int terminalID = p.getTerminalID();
+            int punchType = p.getPunchType();
+            String badgeID = p.getBadgeID();
+            GregorianCalendar originalTimeStamp = p.getOriginalTime();
+             
+            //prepare query
+            String sql = ("INSERT INTO event (BadgeID, originalTimeStamp, punchType, TerminalID) VALUES(?,?,?,?)");
+            PreparedStatement ps = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+            
+            //building the prepared statemnet 
+            ps.setString(1, badgeID);
+            ps.setString(2, (new SimpleDateFormat ("yyy-MM-dd HH:mm-ss")).format(originalTimeStamp.getTime()));
+            ps.setInt(3, terminalID);
+            ps.setInt(4, punchType);
+            
+            //getting result frome executed query
+            result = ps.executeUpdate();
+                    
+            //if data exists in the row
+            if(result == 1){
+                keys = ps.getGeneratedKeys();
+            }
+            
+            //if there is more data
+            if(keys.next()){
+               key = keys.getInt(1);
+            }
+            
+            return key;
+        }
+        
         
         //get punch object
         public Punch getPunch(int punchID){
