@@ -65,14 +65,47 @@ import java.util.logging.*;
         }
         
         //get punch object
-        public Punch getPunch(int punchInt){
+        public Punch getPunch(int punchID){
             Connection();
-            
-             //remember to change these once constructors are finished
-            return null;
-        }
+                
+        Punch p = null;
+        try{
+        //prepare the query
+        query = "SELECT * FROM punch WHERE id = " + punchID;
         
-        /*constructors for creating Badge Objects*/
+        //execute the query
+        try (Statement st = conn.createStatement()) {
+                ResultSet rs = st.executeQuery(query);
+                
+                while (rs.next())
+                {
+                    // ID
+                    int Id = rs.getInt("id");
+                    
+                    // Terminal ID
+                    int terminalId = rs.getInt("terminalid");
+                    
+                    // Bagde ID
+                    String badgeId = rs.getString("badgeid");
+                    
+                    //Punch type
+                    int punchType = rs.getInt("punchtypeid");
+                    
+                    Badge b = getBadge(badgeId);
+                    
+                    //create a punch
+                    p = new Punch(b, terminalId, punchType);
+                   
+                    //set original time with setter
+                }
+            }
+        }catch(SQLException ex){
+            Logger.getLogger(TASDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            }
+     return p;   
+    }
+        
+       
         
         
         //set badge object
