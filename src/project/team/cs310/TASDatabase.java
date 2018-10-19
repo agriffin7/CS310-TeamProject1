@@ -72,19 +72,18 @@ import java.util.logging.*;
             ResultSet keys = null;
             
             //get punch stuff
-            int ID = p.getID();
-            int shiftID = p.getShiftID();
             int terminalID = p.getTerminalID();
             int punchType = p.getPunchType();
-            String badgeID = p.getBadgeID();
-            GregorianCalendar originalTimeStamp = p.getOriginalTime();
+            Badge badgeID = p.getBadgeID();
+            String b = badgeID.toString();
+            Timestamp originalTimeStamp = p.getOriginalTime();
              
             //prepare query
             String sql = ("INSERT INTO event (BadgeID, originalTimeStamp, punchType, TerminalID) VALUES(?,?,?,?)");
             PreparedStatement ps = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             
             //building the prepared statemnet 
-            ps.setString(1, badgeID);
+            ps.setString(1, b);
             ps.setString(2, (new SimpleDateFormat ("yyy-MM-dd HH:mm-ss")).format(originalTimeStamp.getTime()));
             ps.setInt(3, terminalID);
             ps.setInt(4, punchType);
@@ -133,10 +132,13 @@ import java.util.logging.*;
                     //Punch type
                     int punchType = rs.getInt("punchtypeid");
                     
+                    //Time Stamp
+                    Timestamp tStamp = rs.getTimestamp("originaltimestamp");
+                    
                     Badge b = getBadge(badgeId);
                     
                     //create a punch
-                    p = new Punch(b, terminalId, punchType);
+                    p = new Punch(b, terminalId, punchType, tStamp);
                    
                     //set original time with setter
                 }
