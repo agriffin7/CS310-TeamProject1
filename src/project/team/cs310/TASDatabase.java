@@ -187,7 +187,7 @@ public class TASDatabase {
     public int insertPunch(Punch p)
     {
 	int terminalID = p.getTerminalid();
-	int punchTypeID = p.getpunchtypeid();
+	int punchTypeID = p.getPunchtypeid();
 	int ID = p.getId();
 	GregorianCalendar g = p.getOriginaltime();
 	String badgeID = p.getBadgeid();

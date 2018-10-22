@@ -28,7 +28,9 @@ public class Punch
     public String printOriginalTimestamp()
     {
         String result;
-        switch (getpunchtypeid())
+        
+        
+        switch (getPunchtypeid())
         {
             case 1:
                 result = "#" + badgeid + " CLOCKED IN: " + originaltime.toZonedDateTime().format(DateTimeFormatter.ofPattern( "E MM/dd/uuuu HH:mm:ss" ));
@@ -72,6 +74,10 @@ public class Punch
     public GregorianCalendar getOriginaltime() {
         return originaltime;
     }
+    //this returns long (used for feature 2) - Austin
+    public long getOriginaltimestamp(){
+        return originaltime.getTimeInMillis();
+    }
 
     public void setOriginaltime(GregorianCalendar originaltime) {
         this.originaltime = originaltime;
@@ -85,7 +91,7 @@ public class Punch
         this.adjustedtime = adjustedtime;
     }
 
-    public int getpunchtypeid() {
+    public int getPunchtypeid() {
         return punchtypeid;
     }
 
