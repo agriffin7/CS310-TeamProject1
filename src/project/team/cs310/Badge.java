@@ -1,39 +1,46 @@
-
 package project.team.cs310;
 
-public class Badge {
+// Muhammad Shakir  ..... 
+// Badge Updated
 
-        private String description;
-        private String id;
-        
-        public Badge(String id, String d){
-            description = d;
-            this.id = id;
-        }
-        
-        //blank constructor
-        public Badge(){
-            
-        }
+public class Badge 
+{
+    // Create a Variables
+    private String description;
+    private String id;
     
-    @Override
-    public String toString(){
-        return "#" + id + " (" + description + ")";
-    }
-    // set badge description
-    public void setDescription(String description){
-        this.description = description;
-    }
-    //set badge ID
-    public void setId(String id) {    
+// Create a Constructor
+    public Badge(String id, String d)
+    {
+        description = d;
         this.id = id;
     }
-    //get badge descrption
-    public String getDescription() {
+    
+    // OverRiding the toString Java Object method
+    // Formatting Output    
+    @Override
+    public String toString()
+    {
+        return "#" + id + " (" + description + ")";
+    }
+
+    public void setDescription(String description)
+    {
+        this.description = description;
+    }
+
+    public void setId(String id)
+    {
+        this.id = id;
+    }
+
+    public String getDescription()
+    {
         return description;
     }
-    //get badge ID
-    public String getId() {
+
+    public String getId()
+    {
         return id;
     }
 }
