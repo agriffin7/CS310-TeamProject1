@@ -1,140 +1,118 @@
 package project.team.cs310;
 
+// Muhammad Shakir  ..... 
+
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.time.LocalDate;
 
-public class Shift {
-    /*Shift will contain the shift ruleset
-        (that is, the starting time, stopping time, and other parameters of a single shift).*/
-        
-        /*instance field*/
-         private int shiftid, interval, dock, gracePeriod, lunchDeduct;
-         private String description;
-         private long lunchBreak;
-         private long timeInterval;
-         private Time timeStart = new Time(0);
-         private Time timeStop = new Time(0);
-         private Time lunchStart = new Time(0);
-         private Time lunchStop = new Time(0);
-        /*instance field*/
-         
-         public Shift(){
-             //empty constructor
-         }
-         
-         public Shift(int shiftid, String description, Time timeStart, Time timeStop, int interval, int gracePeriod, int dock, Time lunchStart, Time lunchStop, long lunchBreak, int lunchDeduct){
-            this.shiftid = shiftid;
-            this.description = description;
-            this.timeStart = timeStart;
-            this.timeStop = timeStop;
-            this.interval = interval;
-            this.gracePeriod = gracePeriod;
-            this.dock = dock;
-            this.lunchStart = lunchStart;
-            this.lunchStop = lunchStop;
-            this.lunchBreak = lunchBreak;
-            this.lunchDeduct = lunchDeduct;
-            
-         }
-         
-         /*GETTER METHODS START*/
-        public int getShiftid() {
-            return shiftid;
-        }
-         
-        public String getDescription() {
-            return description;
-        }
-        
-        public Time getTimeStart(){
-            return timeStart;
-        }
-        
-        public Time getTimeStop(){
-            return timeStop;
-        }
-        
-        public long getInterval() {
-            return interval;
-        }
-        
-        public long getGracePeriod() {
-            return gracePeriod;
-        }
-        
-        public long getDock(){
-            return dock;
-        }
-        
-        public Time getLunchStart() {
-            return lunchStart;
-        }
-        
-        public void setShiftid(int shiftid){
-            this.shiftid = shiftid;
-        }
-        
-        public void setDescription(String description){
-            this.description = description;
-        }
+public class Shift
+{
+    // Create varaibels
+    private int id, interval, gracePeriod, dock, lunchDeduct;
+    private String description;
+    private Time shiftStart, shiftStop, lunchStart, lunchStop;
+   
+    // Constructor
+    public Shift(int id, int interval, int gracePeriod, int dock, int lunchDeduct, String description, Time start, Time stop, Time lunchStart, Time lunchStop)
+    {
+        this.id = id;
+        this.interval = interval;
+        this.gracePeriod = gracePeriod;
+        this.dock = dock;
+        this.lunchDeduct = lunchDeduct;
+        this.description = description;
+        this.shiftStart = start;
+        this.shiftStop = stop;
+        this.lunchStart = lunchStart;
+        this.lunchStop = lunchStop;
+    }
+    
+    // Gettter Methods
 
-        public void setDock(int dock) {
-            this.dock = dock;
-        }
-        
-        public void setTimeStart(Time timeStart){
-            this.timeStart = timeStart;
-        }
-        
-        public void setTimeStop(Time timeStop){
-            this.timeStop = timeStop;
-        }
-        
-        public void setGracePeriod(int gracePeriod){
-            this.gracePeriod = gracePeriod;
-        }
-        
-        public void setInterval(int interval){
-            this.interval = interval;
-        }
-        
-        public void setTimeInterval(long timeInterval){
-            this.timeInterval = timeInterval;
-        }
-        
-        public void setLunchStart(Time lunchStart){
-            this.lunchStart = lunchStart;
-        }
-        
-        public void setLunchStop(Time lunchStop){
-            this.lunchStop = lunchStop;
-        }
-        
-        public void setLunchBreak(long lunchBreak){
-            this.lunchBreak = lunchBreak;
-        }
-        public void setLunchDeduct(int lunchDeduct){
-            this.lunchDeduct = lunchDeduct;
-        }
-        
-        /*SETTER METHODS END*/
-        
-        @Override
-        public String toString(){
-             String output = "";
-        String startTime = (new SimpleDateFormat("HH:mm")).format(timeStart.getTime());
-        String stopTime = (new SimpleDateFormat("HH:mm")).format(timeStop.getTime());
+    public int getId()
+    {
+        return id;
+    }
+
+    public int getInterval()
+    {
+        return interval;
+    }
+
+    public int getGracePeriod()
+    {
+        return gracePeriod;
+    }
+
+    public int getDock()
+    {
+        return dock;
+    }
+
+    public int getLunchDeduct()
+    {
+        return lunchDeduct;
+    }
+
+    public String getDescription()
+    {
+        return description;
+    }
+
+    public Time getShiftStart()
+    {
+        return shiftStart;
+    }
+
+    public Time getShiftStop()
+    {
+        return shiftStop;
+    }
+
+    public Time getLunchStart()
+    {
+        return lunchStart;
+    }
+
+    public Time getLunchStop()
+    {
+        return lunchStop;
+    }
+
+    private long getElapsedTime(Time s, Time e)
+    {
+        Calendar startCal = GregorianCalendar.getInstance();
+        Calendar endCal = GregorianCalendar.getInstance();
+        startCal.setTimeInMillis(s.getTime());
+        endCal.setTimeInMillis(e.getTime());
+
+        long start, end;
+        start = startCal.getTimeInMillis();
+        end = endCal.getTimeInMillis();
+        return (end - start) / (60 * 1000);
+    }
+
+    // OverRiding the toString Java Object method
+    // Formatting Output  
+    @Override
+    public String toString()
+    {
+        String data = "";
+        String startTime = (new SimpleDateFormat("HH:mm")).format(shiftStart.getTime());
+        String stopTime = (new SimpleDateFormat("HH:mm")).format(shiftStop.getTime());
         String lunchStartTime = (new SimpleDateFormat("HH:mm")).format(lunchStart.getTime());
         String lunchStopTime = (new SimpleDateFormat("HH:mm")).format(lunchStop.getTime());
-        output += description + ": ";
-        output += startTime + " - ";
-        output += stopTime + " (";
-        output += timeInterval + " minutes);";
-        output += " Lunch: " + lunchStartTime + " - ";
-        output += lunchStopTime + " (";
-        output += lunchBreak + " minutes)";
-        return output;
-        }
+        
+        data += description + ": ";
+        data += startTime + " - ";
+        data += stopTime + " (";
+        data += getElapsedTime(shiftStart, shiftStop) + " minutes);";
+        data += " Lunch: " + lunchStartTime + " - ";
+        data += lunchStopTime + " (";
+        data += getElapsedTime(lunchStart, lunchStop) + " minutes)";
+        return data;
+    }
 }
