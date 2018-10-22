@@ -8,6 +8,7 @@ package project.team.cs310;
 
 import java.sql.*;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.logging.*;
 
@@ -189,40 +190,46 @@ public class TASDatabase {
 
     public int insertPunch(Punch p)
     {
+
+        int ID = p.getId();
 	int terminalID = p.getTerminalid();
 	int punchTypeID = p.getPunchtypeid();
-	int ID = p.getId();
-	GregorianCalendar g = p.getOriginaltime();
+        GregorianCalendar g = p.getOriginaltime();
+        //create a SimpleDateFormat
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        //Create a java.sql.Date object
+        java.sql.Date date = new java.sql.Date(g.getTimeInMillis());
+        
 	String badgeID = p.getBadgeid();
-        //java.sql.Date date = new java.sql.Date(g.getTime());
 	try
         {
             int punchID;
             int Results;
             ResultSet rst;		
             
-            String query = " insert into punch (id, terminalid, badgeid, originaltimestamp, punchtypeid)" + " values (?, ?, ?, ?, ?)";
-            PreparedStatement preparedStmt = conn.prepareStatement(query,PreparedStatement.RETURN_GENERATED_KEYS);
+            String query = " insert into punch (id, terminalid, badgeid, originaltimestamp, punchtypeid) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement pstUpdate = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             
-            preparedStmt.setInt(1, ID);
-            preparedStmt.setInt(2, terminalID);
-            preparedStmt.setString(3, badgeID);
-            //preparedStmt.setDate(4, g.getTime());
-            preparedStmt.setInt(5, punchTypeID);
-
-            Results = preparedStmt.executeUpdate();
-            conn.close();
+            pstUpdate.setInt(1, ID);
+            pstUpdate.setInt(2, terminalID);
+            pstUpdate.setString(3, badgeID);
+            pstUpdate.setString(4, sdf.format(date));
+            pstUpdate.setInt(5, punchTypeID);
+            
+            Results = pstUpdate.executeUpdate();
 
             //Check to see if punch was properly inserted		
 
             if(Results == 1)
             {
-                rst = preparedStmt.getGeneratedKeys();
+                rst = pstUpdate.getGeneratedKeys();
                 if(rst.next()){
                         punchID = rst.getInt(1);
                         p.setId(punchID);
+                        return p.getId();
                 }
             }
+        conn.close();
         }
         catch(SQLException ex)
         {

@@ -11,7 +11,7 @@ public class Punch
     // Create variables or fields
     private int id = 0;
     private int terminalid;
-    private String badgeid;
+    private String badgeid = "";
     private GregorianCalendar originaltime = new GregorianCalendar();
     private GregorianCalendar adjustedtime = null;
     private int punchtypeid;
