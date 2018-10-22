@@ -25,6 +25,10 @@ public class Punch
         this.punchtypeid = punchtypeid;
     }
     
+    public Punch(){
+        
+    }
+    
     public String printOriginalTimestamp()
     {
         String result;

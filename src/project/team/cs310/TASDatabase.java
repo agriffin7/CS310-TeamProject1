@@ -7,6 +7,7 @@ package project.team.cs310;
 // Dalton Murphee
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.logging.*;
 
@@ -55,7 +56,7 @@ public class TASDatabase {
     
     public Punch getPunch(int id)
     {    
-        Punch p = null;
+        Punch p = new Punch();
         try
         {
             
@@ -73,7 +74,9 @@ public class TASDatabase {
                     Badge b = getBadge(badgeId);
                     long time = rs.getLong("ts");
                     //Need to create a punch and to create a punch I need a badge
-                    p = new Punch(b, terminalId, punchTypeId);
+                    p.setBadgeid(badgeId);
+                    p.setTerminalid(terminalId);
+                    p.setpunchType(punchTypeId);
                     //set original time to whatever it was with setter
                     GregorianCalendar origTime = new GregorianCalendar();
                     origTime.setTimeInMillis(time);
@@ -191,21 +194,21 @@ public class TASDatabase {
 	int ID = p.getId();
 	GregorianCalendar g = p.getOriginaltime();
 	String badgeID = p.getBadgeid();
-        
+        //java.sql.Date date = new java.sql.Date(g.getTime());
 	try
         {
             int punchID;
             int Results;
             ResultSet rst;		
             
-            String query = " insert into users (id, terminalid, badgeid, originaltimestamp, punchtypeid)" + " values (?, ?, ?, ?, ?)";
+            String query = " insert into punch (id, terminalid, badgeid, originaltimestamp, punchtypeid)" + " values (?, ?, ?, ?, ?)";
             PreparedStatement preparedStmt = conn.prepareStatement(query,PreparedStatement.RETURN_GENERATED_KEYS);
             
-            preparedStmt.setInt (1, ID);
-            preparedStmt.setInt (2, terminalID);
-            preparedStmt.setString   (3, badgeID);
-            //preparedStmt.setGregorianCalendar(4, g);
-            preparedStmt.setInt    (5, punchTypeID);
+            preparedStmt.setInt(1, ID);
+            preparedStmt.setInt(2, terminalID);
+            preparedStmt.setString(3, badgeID);
+            //preparedStmt.setDate(4, g.getTime());
+            preparedStmt.setInt(5, punchTypeID);
 
             Results = preparedStmt.executeUpdate();
             conn.close();
@@ -223,6 +226,7 @@ public class TASDatabase {
         }
         catch(SQLException ex)
         {
+            System.out.println("YA DONE GOOFED");
             Logger.getLogger(TASDatabase.class.getName()).log(Level.SEVERE, null, ex);
         }
         return p.getId();
