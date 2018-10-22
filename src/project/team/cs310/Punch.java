@@ -1,107 +1,96 @@
 package project.team.cs310;
 
+// Muhammad Shakir  ..... 
+
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
+import java.time.format.DateTimeFormatter;
 
-
-public class Punch {
-     /*Punch will contain information about the original and adjusted timestamps. 
-        These objects will be created and populated by the database class, 
-        which will retrieve the necessary data from the database. 
-        This may be existing punches, or new punches that have not yet been added to the database. 
-        Newly-created punches do not yet have a unique ID (since this is assigned by the database),
-        and their original timestamps should be initialized to the current time as reported by the system clock.*/
-        public Punch(){}
-        private GregorianCalendar originalTime; //check
-        private GregorianCalendar adjustedTime; //check
-        private int ID;
-        private int shiftID; //in constructor
-        private String badgeID; //in constructor
-        private int terminalID; //in constructor
-        private int punchType; //in constructor
-        private String simpleDateFormat; //check
-        
-        public Punch(int ID, int shiftID, String badgeID, int terminalID, int punchType, long tStamp) {
-            originalTime = new GregorianCalendar();
-            adjustedTime = new GregorianCalendar();
-            this.shiftID = shiftID;
-            this.badgeID = badgeID;
-            this.terminalID = terminalID;
-            this.punchType = punchType;
-            long originaltimeStamp = tStamp;
-            originalTime.setTimeInMillis(originaltimeStamp);
-            originalTime = new GregorianCalendar();
-            this.ID = ID;
-            
-            simpleDateFormat = new SimpleDateFormat("EEE MM/dd/YYYY HH:mm:ss").format(originalTime.getTime()).toUpperCase();
+public class Punch
+{
+    // Create variables or fields
+    private int id = 0;
+    private int terminalid;
+    private String badgeid;
+    private GregorianCalendar originaltime = new GregorianCalendar();
+    private GregorianCalendar adjustedtime = null;
+    private int punchtypeid;
+    
+    // Constructor with three parameters
+    public Punch(Badge badge, int terminalid, int punchtypeid)
+    {
+        // Get the Badge id from the badge class get method
+        badgeid = badge.getId();
+        this.terminalid = terminalid;
+        this.punchtypeid = punchtypeid;
+    }
+    
+    public String printOriginalTimestamp()
+    {
+        String result;
+        switch (getpunchtypeid())
+        {
+            case 1:
+                result = "#" + badgeid + " CLOCKED IN: " + originaltime.toZonedDateTime().format(DateTimeFormatter.ofPattern( "E MM/dd/uuuu HH:mm:ss" ));
+              
+                break;
+            case 0:
+                result = "#" + badgeid + " CLOCKED OUT: " + originaltime.toZonedDateTime().format(DateTimeFormatter.ofPattern( "E MM/dd/uuuu HH:mm:ss" ));
+                break;
+            default:
+                result = "#" + badgeid + " TIMED OUT: " + originaltime.toZonedDateTime().format(DateTimeFormatter.ofPattern( "E MM/dd/uuuu HH:mm:ss" ));
+                break;
         }
-
-    public GregorianCalendar getOriginalTime() {
-        return originalTime;
-    }
-
-    public void setOriginalTime(GregorianCalendar originalTime) {
-        this.originalTime = originalTime;
-    }
-
-    public GregorianCalendar getAdjustedTime() {
-        return adjustedTime;
-    }
-
-    public void setAdjustedTime(GregorianCalendar adjustedTime) {
-        this.adjustedTime = adjustedTime;
-    }
-    
-    public void setID(int ID){
-        this.ID = ID;
-    }
-    
-    public int getID(){
-        return ID;
-    }
-
-    public int getShiftID() {
-        return shiftID;
-    }
-
-    public void setShiftID(int shiftID) {
-        this.shiftID = shiftID;
-    }
-
-    public String getBadgeID() {
-        return badgeID;
-    }
-
-    public void setBadgeID(String badgeID) {
-        this.badgeID = badgeID;
-    }
-
-    public int getTerminalID() {
-        return terminalID;
-    }
-
-    public void setTerminalID(int terminalID) {
-        this.terminalID = terminalID;
-    }
-
-    public int getPunchType() {
-        return punchType;
-    }
-
-    public void setPunchType(int punchType) {
-        this.punchType = punchType;
-    }
-
-    public String getSimpleDateFormat() {
-        return simpleDateFormat;
-    }
-
-    public void setSimpleDateFormat(String simpleDateFormat) {
-        this.simpleDateFormat = simpleDateFormat;
-    }
-    
-    public String printOriginalTimestamp(){
-        return "#" + badgeID + " CLOCKED IN: " + originalTime;
-    }
         
+        return result.toUpperCase();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getTerminalid() {
+        return terminalid;
+    }
+
+    public void setTerminalid(int terminalid) {
+        this.terminalid = terminalid;
+    }
+
+    public String getBadgeid() {
+        return badgeid;
+    }
+
+    public void setBadgeid(String badgeid) {
+        this.badgeid = badgeid;
+    }
+
+    public GregorianCalendar getOriginaltime() {
+        return originaltime;
+    }
+
+    public void setOriginaltime(GregorianCalendar originaltime) {
+        this.originaltime = originaltime;
+    }
+
+    public GregorianCalendar getAdjustedtime() {
+        return adjustedtime;
+    }
+
+    public void setAdjustedtime(GregorianCalendar adjustedtime) {
+        this.adjustedtime = adjustedtime;
+    }
+
+    public int getpunchtypeid() {
+        return punchtypeid;
+    }
+
+    public void setpunchType(int punchtypeid) {
+        this.punchtypeid = punchtypeid;
+    }
+
 }
