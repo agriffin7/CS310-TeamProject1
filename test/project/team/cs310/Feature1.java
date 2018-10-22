@@ -6,24 +6,20 @@ import project.team.cs310.Punch;
 import project.team.cs310.Badge;
 
 import org.junit.*;
-import project.team.cs310.Badge;
-import project.team.cs310.Punch;
-import project.team.cs310.Shift;
-import project.team.cs310.TASDatabase;
 import static org.junit.Assert.*;
 
-public class Feature1 {
-
-    private TASDatabase db;
-    
+public class Feature1
+{
+    private TASDatabase db;    
     @Before
-    public void setup() {
+    public void setup()
+    {
         db = new TASDatabase();
     }
     
     @Test
-    public void testGetBadges() {
-		
+    public void testGetBadges()
+    {		
         /* Retrieve Badges from Database */
 
         Badge b1 = db.getBadge("12565C60");
@@ -113,10 +109,3 @@ public class Feature1 {
     }
     
 }
-
-
-
-
-
-
-
