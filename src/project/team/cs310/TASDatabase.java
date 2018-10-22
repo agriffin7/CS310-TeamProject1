@@ -238,4 +238,25 @@ public class TASDatabase {
         }
         return p.getId();
     }
+     
+    /* public ArrayList getDailyPunchList(Badge b, long ts)
+    {
+        
+        
+        try
+        {
+            
+       
+        
+       
+        }   
+        catch(SQLException ex)
+        {
+            Logger.getLogger(TASDatabase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        // Return must be changed.
+        return null ;
+    } 
+       */ 
+    
 }
