@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.logging.*;
+import java.util.ArrayList;
 
 public class TASDatabase {
     
@@ -233,34 +234,44 @@ public class TASDatabase {
         }
         catch(SQLException ex)
         {
-            System.out.println("YA DONE GOOFED");
+            System.out.println("Progress !!!!");
             Logger.getLogger(TASDatabase.class.getName()).log(Level.SEVERE, null, ex);
         }
         return p.getId();
     }
-     
-    /* public ArrayList getDailyPunchList(Badge b, long ts)
-    {   //
+
+    public ArrayList getDailyPunchList(Badge b, long ts)
+    {
         ArrayList<Punch> punchList = new ArrayList<>();
-        GregorianCalendar day = new GregorianCalendar();
-        day.setTimeInMillis(ts);
+        GregorianCalendar dayInQuestion = new GregorianCalendar();
+        dayInQuestion.setTimeInMillis(ts);
         GregorianCalendar queryTime = new GregorianCalendar();
-        
-        
         try
         {
+            ResultSet rst;           
+            String query = "SELECT *, UNIX_TIMESTAMP(originaltimestamp) * 1000 AS time FROM punch WHERE badgeid = ?";
             
-       
-        
-       
-        }   
-        catch(SQLException ex)
-        {
-            Logger.getLogger(TASDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            PreparedStatement preparedStmt = conn.prepareStatement(query,PreparedStatement.RETURN_GENERATED_KEYS);
+            preparedStmt.setString(1, b.getId());
+            
+            rst = preparedStmt.executeQuery();
+            int counter = 0;
+            while(rst.next()) {
+                queryTime.setTimeInMillis(rst.getLong("time"));
+                if(queryTime.get(Calendar.DAY_OF_YEAR) == dayInQuestion.get(Calendar.DAY_OF_YEAR) && queryTime.get(Calendar.YEAR) == dayInQuestion.get(Calendar.YEAR)) {
+                    Punch p = getPunch(rst.getInt("id"));
+                    punchList.add(p); 
+
+                }
+            }
+            
         }
-        // Return must be changed.
-        return null ;
-    } 
-       */ 
-    
+        catch(SQLException ex) {
+            
+        }
+        
+        
+        
+        return punchList;
+    }    
 }
