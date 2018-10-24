@@ -240,7 +240,7 @@ public class TASDatabase {
     }
      
     /* public ArrayList getDailyPunchList(Badge b, long ts)
-    {   
+    {   //
         ArrayList<Punch> punchList = new ArrayList<>();
         GregorianCalendar day = new GregorianCalendar();
         day.setTimeInMillis(ts);
