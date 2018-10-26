@@ -30,8 +30,23 @@ public class Punch
     }
     
     public void adjust(Shift s){
+        //declare a long value to get the originaltime as a long
+        long OTime = originaltime.getTimeInMillis();
+        //create a time object using that long variable
+        Time time = new Time(OTime);
+        //now get a long variable of that
+        long timeLong = time.getTime();
         
-        //
+        //now we get the shift information and declare those as longs
+       long shiftStart = s.getShiftStart().getTime();
+       long shiftEnd = s.getShiftStop().getTime();
+       long lunchStart = s.getLunchStart().getTime();
+       long lunchStop = s.getLunchStop().getTime();
+       
+       //declare the grace period and penalty deduction
+       int GracePeriod = s.getGracePeriod();
+       int ShiftDeduction = s.getInterval();
+       int LunchDeduction = s.getLunchDeduct();
         
     }
     //This is to print the original time value
@@ -129,29 +144,6 @@ public class Punch
 
     public void setpunchType(int punchtypeid) {
         this.punchtypeid = punchtypeid;
-    }
-    
-    public void adjust(Shift s){
-        //declare a long value to get the originaltime as a long
-        long OTime = originaltime.getTimeInMillis();
-        //create a time object using that long variable
-        Time time = new Time(OTime);
-        //now get a long variable of that
-        long timeLong = time.getTime();
-        
-        //now we get the shift information and declare those as longs
-       long shiftStart = s.getShiftStart().getTime();
-       long shiftEnd = s.getShiftStop().getTime();
-       long lunchStart = s.getLunchStart().getTime();
-       long lunchStop = s.getLunchStop().getTime();
-       
-       //declare the grace period and penalty deduction
-       int GracePeriod = s.getGracePeriod();
-       int ShiftDeduction = s.getInterval();
-       int LunchDeduction = s.getLunchDeduct();
-       
-       
-        
     }
 
 }
