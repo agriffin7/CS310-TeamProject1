@@ -25,7 +25,12 @@ public class Punch
         this.punchtypeid = punchtypeid;
     }
     
-    public Punch(){
+    public Punch (){
+    }
+    
+    public void adjust(Shift s){
+        
+        //
         
     }
     
