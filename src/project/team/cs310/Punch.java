@@ -26,7 +26,12 @@ public class Punch
         this.punchtypeid = punchtypeid;
     }
     
-    public Punch(){
+    public Punch (){
+    }
+    
+    public void adjust(Shift s){
+        
+        //
         
     }
     //This is to print the original time value
