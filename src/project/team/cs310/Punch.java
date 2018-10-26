@@ -2,6 +2,7 @@ package project.team.cs310;
 
 // Muhammad Shakir  ..... 
 
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.time.format.DateTimeFormatter;
@@ -13,7 +14,7 @@ public class Punch
     private int terminalid;
     private String badgeid = "";
     private GregorianCalendar originaltime = new GregorianCalendar();
-    private GregorianCalendar adjustedtime = null;
+    private GregorianCalendar adjustedtime = new GregorianCalendar();
     private int punchtypeid;
     
     // Constructor with three parameters
@@ -28,7 +29,7 @@ public class Punch
     public Punch(){
         
     }
-    
+    //This is to print the original time value
     public String printOriginalTimestamp()
     {
         String result;
@@ -50,6 +51,28 @@ public class Punch
         
         return result.toUpperCase();
     }
+    //This is to print the adjusted time value
+    public String printAdjustedTimestamp()
+    {
+        String result;
+        
+        
+        switch (getPunchtypeid())
+        {
+            case 1:
+                result = "#" + badgeid + " CLOCKED IN: " + adjustedtime.toZonedDateTime().format(DateTimeFormatter.ofPattern( "E MM/dd/uuuu HH:mm:ss" ));
+              
+                break;
+            case 0:
+                result = "#" + badgeid + " CLOCKED OUT: " + adjustedtime.toZonedDateTime().format(DateTimeFormatter.ofPattern( "E MM/dd/uuuu HH:mm:ss" ));
+                break;
+            default:
+                result = "#" + badgeid + " TIMED OUT: " + adjustedtime.toZonedDateTime().format(DateTimeFormatter.ofPattern( "E MM/dd/uuuu HH:mm:ss" ));
+                break;
+        }
+        
+        return result.toUpperCase();
+    }   
 
     public int getId() {
         return id;
@@ -101,6 +124,29 @@ public class Punch
 
     public void setpunchType(int punchtypeid) {
         this.punchtypeid = punchtypeid;
+    }
+    
+    public void adjust(Shift s){
+        //declare a long value to get the originaltime as a long
+        long OTime = originaltime.getTimeInMillis();
+        //create a time object using that long variable
+        Time time = new Time(OTime);
+        //now get a long variable of that
+        long timeLong = time.getTime();
+        
+        //now we get the shift information and declare those as longs
+       long shiftStart = s.getShiftStart().getTime();
+       long shiftEnd = s.getShiftStop().getTime();
+       long lunchStart = s.getLunchStart().getTime();
+       long lunchStop = s.getLunchStop().getTime();
+       
+       //declare the grace period and penalty deduction
+       int GracePeriod = s.getGracePeriod();
+       int ShiftDeduction = s.getInterval();
+       int LunchDeduction = s.getLunchDeduct();
+       
+       
+        
     }
 
 }
