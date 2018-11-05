@@ -41,18 +41,12 @@ public class Punch
         //Pull out the times from cal so we can compare time punches
         Time time = new Time(d.getHours(), d.getMinutes(), d.getSeconds());
         
-        
-        //now we get the shift information and declare those as longs
-       long shiftStart = s.getShiftStart().getTime();
-       long shiftStop = s.getShiftStop().getTime();
-       long lunchStart = s.getLunchStart().getTime();
-       long lunchStop = s.getLunchStop().getTime();
-       
-       //convert those over to GregorianCalendar
-       Time SStartTime = new Time(shiftStart);
-       Time SStopTime =  new Time(shiftStop);
-       Time LStartTime = new Time(lunchStart);
-       Time LStopTime = new Time(lunchStop);
+ 
+       //convert the shift over to Time
+       Time SStartTime = new Time(s.getShiftStart().getTime());
+       Time SStopTime =  new Time(s.getShiftStop().getTime());
+       Time LStartTime = new Time(s.getLunchStart().getTime());
+       Time LStopTime = new Time(s.getLunchStop().getTime());
        
        // grace Period addition
        
@@ -126,18 +120,18 @@ public class Punch
              // Check if time is after Lunch Start and Before Lunch End, If so
             // shift the clockouts to correct times
             
-            if (time.after(LStartTime) && time.before(LStopTime)){
+            if (time.after(LStartTime) && time.before(LStopTime) || time.equals(LStartTime) || time.equals(LStopTime)){
                 if(time.getMinutes() >= 16){
                     adjustedtime.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
                             cal.get(Calendar.DATE), LStopTime.getHours(),
                             LStopTime.getMinutes(), LStopTime.getSeconds());
-                    AdjustedTimeOperation = "(Lunch Stop)";
+                    AdjustedTimeOperation = " (Lunch Stop)";
                 }
                 if(time.getMinutes() < 16){
                     adjustedtime.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
                             cal.get(Calendar.DATE), LStartTime.getHours(),
                             LStartTime.getMinutes(), LStartTime.getSeconds());
-                    AdjustedTimeOperation = "(Lunch Start)";
+                    AdjustedTimeOperation = " (Lunch Start)";
                 }
            
             }
@@ -157,11 +151,11 @@ public class Punch
             }
             //if time is after Shift Stop, adjust back to correct clockout
             Time diddlydoo = new Time(SStopTime.getHours()+1, SStopTime.getMinutes(), SStopTime.getSeconds());
-            if (time.after(SStopTime)){
+            if (time.after(SStopTime) || time.equals(SStopTime)){
                 if(time.before(diddlydoo)){
                     adjustedtime.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
                         cal.get(Calendar.DATE), SStopTime.getHours(), 
-                        SStopTime.getMinutes()-5, SStopTime.getSeconds());
+                        SStopTime.getMinutes(), SStopTime.getSeconds());
                 
                     AdjustedTimeOperation = " (Shift Stop)";
                 }
