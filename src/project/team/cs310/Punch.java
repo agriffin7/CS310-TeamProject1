@@ -155,12 +155,23 @@ public class Punch
                 }
            
             }
-            //if time is after Shift Stop, adjust back to correct clockout 
+            //if time is after Shift Stop, adjust back to correct clockout
+            Time diddlydoo = new Time(SStopTime.getHours()+1, SStopTime.getMinutes(), SStopTime.getSeconds());
             if (time.after(SStopTime)){
-                adjustedtime.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
+                if(time.before(diddlydoo)){
+                    adjustedtime.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
                         cal.get(Calendar.DATE), SStopTime.getHours(), 
                         SStopTime.getMinutes()-5, SStopTime.getSeconds());
-                AdjustedTimeOperation = " (Shift Stop)";
+                
+                    AdjustedTimeOperation = " (Shift Stop)";
+                }
+                else{
+                   adjustedtime.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
+                        cal.get(Calendar.DATE), time.getHours(), 
+                        time.getMinutes(), cal.get(Calendar.SECOND));
+                
+                    AdjustedTimeOperation = " (None)"; 
+                }
             }
 
        }
