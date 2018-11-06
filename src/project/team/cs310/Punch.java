@@ -58,6 +58,7 @@ public class Punch
        
        //grace period additions
        SStartTime.setMinutes(SStartTime.getMinutes()+GracePeriod);
+       SStopTime.setMinutes(SStopTime.getMinutes()-GracePeriod);
        
        //adjust the time to the nearest interval (this is all in interval of 15)
        //round to another hour (60 minutes)
@@ -94,6 +95,7 @@ public class Punch
  
            AdjustedTimeOperation = " (Interval Round)";
        }
+       
        
 
        /* GLOBAL IF STATEMENT TO CHECK IF WORKING WEEKDAY, IF YES, BEGIN THE
@@ -138,15 +140,12 @@ public class Punch
             // Check if the time is after lunch stop and before Shift Stop, if so
             // if they are outside grace period, Deduct time.
             if (time.after(LStopTime) && time.before(SStopTime)){
+
                 Time thold = new Time(time.getHours(),time.getMinutes(),time.getSeconds());
                 adjustedtime.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
-                        cal.get(Calendar.DATE), SStopTime.getHours(), SStopTime.getMinutes()-15,
+                        cal.get(Calendar.DATE), SStopTime.getHours(), SStopTime.getMinutes()-10,
                         SStopTime.getSeconds());
                 AdjustedTimeOperation = " (Shift Dock)";
-                
-                if (time.equals(thold)){
-                    AdjustedTimeOperation = " (Interval Round)";
-                }
            
             }
             //if time is after Shift Stop, adjust back to correct clockout
@@ -155,14 +154,14 @@ public class Punch
                 if(time.before(diddlydoo)){
                     adjustedtime.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
                         cal.get(Calendar.DATE), SStopTime.getHours(), 
-                        SStopTime.getMinutes(), SStopTime.getSeconds());
+                        SStopTime.getMinutes()+5, SStopTime.getSeconds());
                 
                     AdjustedTimeOperation = " (Shift Stop)";
                 }
                 else{
                    adjustedtime.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
                         cal.get(Calendar.DATE), time.getHours(), 
-                        time.getMinutes(), cal.get(Calendar.SECOND));
+                        time.getMinutes(), 00);
                 
                     AdjustedTimeOperation = " (None)"; 
                 }
