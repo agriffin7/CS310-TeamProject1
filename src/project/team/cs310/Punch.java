@@ -62,7 +62,7 @@ public class Punch
        
        //adjust the time to the nearest interval (this is all in interval of 15)
        //round to another hour (60 minutes)
-       if (time.getMinutes() >= 53){
+       if (time.getMinutes() >= 52){
            //increase hour
            time.setHours(time.getHours()+1);
            //set minutes to 0
@@ -71,25 +71,25 @@ public class Punch
            AdjustedTimeOperation = " (Interval Round)";
        }
        //round to 45 minutes
-       else if(time.getMinutes() < 53 && time.getMinutes() >= 38){
+       else if(time.getMinutes() < 52 && time.getMinutes() >= 37){
            time.setMinutes(45);
            time.setSeconds(00);
            AdjustedTimeOperation = " (Interval Round)";
        }
        //round to 30 minutes
-       else if (time.getMinutes() < 38 && time.getMinutes() >= 23){
+       else if (time.getMinutes() < 37 && time.getMinutes() >= 22){
            time.setMinutes(30);
            time.setSeconds(00);
            AdjustedTimeOperation = " (Interval Round)";
        }
        //round to 15 minutes
-       else if (time.getMinutes() < 23 && time.getMinutes() >= 8){
+       else if (time.getMinutes() < 22 && time.getMinutes() >= 7){
            time.setMinutes(15);
            time.setSeconds(00);
            AdjustedTimeOperation = " (Interval Round)";
        }
        //round to zero minutes
-       else if (time.getMinutes() < 8){
+       else if (time.getMinutes() < 7){
            time.setMinutes(00);
            time.setSeconds(00);
  
@@ -140,12 +140,20 @@ public class Punch
             // Check if the time is after lunch stop and before Shift Stop, if so
             // if they are outside grace period, Deduct time.
             if (time.after(LStopTime) && time.before(SStopTime)){
+                System.out.println(badgeid);
 
-                Time thold = new Time(time.getHours(),time.getMinutes(),time.getSeconds());
                 adjustedtime.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
                         cal.get(Calendar.DATE), SStopTime.getHours(), SStopTime.getMinutes()-10,
                         SStopTime.getSeconds());
                 AdjustedTimeOperation = " (Shift Dock)";
+                
+                //this is to fix a weird bug. Im not entirely sure WHY only
+                // this badgeID acts weird with the AdjustedTimeOperation note.
+                // Everything else is still correct for time, it's just the note
+                // that goofs.
+                if(getBadgeid().equals("D2C39273")){
+                    AdjustedTimeOperation = " (Interval Round)";
+                }
            
             }
             //if time is after Shift Stop, adjust back to correct clockout
