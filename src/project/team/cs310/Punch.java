@@ -19,7 +19,8 @@ public class Punch
     private GregorianCalendar adjustedtime = new GregorianCalendar();
     private String AdjustedTimeOperation = "";
     private int punchtypeid;
-    
+    private int TIMESELECT = 9;
+    private boolean FLAG;
     // Constructor with three parameters
     public Punch(Badge badge, int terminalid, int punchtypeid)
     {
@@ -105,11 +106,13 @@ public class Punch
             //if shift is clockedin before actual shift, update time to
             //correct shift time
             
-            if(time.before(SStartTime)){
+            if(time.before(SStartTime) || time.equals(SStartTime)){
                 adjustedtime.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
                         cal.get(Calendar.DATE), SStartTime.getHours(), SStartTime.getMinutes()-5, 
                         SStartTime.getSeconds());
                 AdjustedTimeOperation = " (Shift Start)";
+                TIMESELECT = 1;
+                FLAG = true;
             }
             //check if time is in between Shift start and before Lunch Start
             //If it is outside graceperiod also, Deduction
@@ -165,6 +168,8 @@ public class Punch
                         SStopTime.getMinutes()+5, SStopTime.getSeconds());
                 
                     AdjustedTimeOperation = " (Shift Stop)";
+                    TIMESELECT = 0;
+                    FLAG = false;
                 }
                 else{
                    adjustedtime.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
@@ -282,6 +287,13 @@ public class Punch
 
     public void setpunchType(int punchtypeid) {
         this.punchtypeid = punchtypeid;
+    }
+    
+    public int getSELECT(){
+        return TIMESELECT;
+    }
+    public boolean getFLAG(){
+        return FLAG;
     }
 
 }
