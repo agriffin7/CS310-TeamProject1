@@ -66,4 +66,13 @@ public class TASLogic
         //apply auto timeout
       return shift.getLunchDeduct();  
     }
+    
+    public static String getPunchListAsJSON(ArrayList dailypunchlist){
+        
+        
+        
+        
+        
+        return null;
+    }
 }
