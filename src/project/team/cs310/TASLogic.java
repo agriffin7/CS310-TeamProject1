@@ -7,6 +7,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
+import org.json.simple.*;
 // Muhammad Shakir
 public class TASLogic 
 {
@@ -67,11 +69,23 @@ public class TASLogic
       return shift.getLunchDeduct();  
     }
     
-    public static String getPunchListAsJSON(ArrayList dailypunchlist){
-        
-        
-        
-        
+    public static String getPunchListAsJSON(ArrayList dailypunchlist)
+    {
+//        String json = "";
+//        ArrayList<HashMap<String, String>> jsonData = new ArrayList();
+//        for (Punch punch : dailypunchlist) 
+//        {
+//            HashMap<String, String> punchData = new HashMap<>();
+//            
+//            punchData.put("id", String.valueOf(punch.getId()));
+//            punchData.put("badgeid", String.valueOf(punch.getBadgeid()));
+//            punchData.put("terminalid", String.valueOf(punch.getTerminalid()));
+//            punchData.put("punchtypeid", String.valueOf(punch.getPunchtypeid()));
+//            
+//            punchData.put("originaltimestamp", String.valueOf(punch.getOriginaltimestamp()));
+//            punchData.put("adjustedtimestamp", String.valueOf(punch.getAdjustedtime()));
+//            jsonData.add(punchData);
+//        }
         
         return null;
     }
