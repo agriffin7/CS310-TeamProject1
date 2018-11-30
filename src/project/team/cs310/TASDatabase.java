@@ -76,6 +76,7 @@ public class TASDatabase {
                     Badge b = getBadge(badgeId);
                     long time = rs.getLong("ts");
                     //Need to create a punch and to create a punch I need a badge
+                    p.setId(Id);
                     p.setBadgeid(badgeId);
                     p.setTerminalid(terminalId);
                     p.setpunchType(punchTypeId);

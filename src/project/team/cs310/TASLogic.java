@@ -69,24 +69,32 @@ public class TASLogic
       return shift.getLunchDeduct();  
     }
     
-    public static String getPunchListAsJSON(ArrayList dailypunchlist)
+    public static String getPunchListAsJSON(ArrayList<Punch> dailypunchlist)
     {
-//        String json = "";
-//        ArrayList<HashMap<String, String>> jsonData = new ArrayList();
-//        for (Punch punch : dailypunchlist) 
-//        {
-//            HashMap<String, String> punchData = new HashMap<>();
-//            
-//            punchData.put("id", String.valueOf(punch.getId()));
-//            punchData.put("badgeid", String.valueOf(punch.getBadgeid()));
-//            punchData.put("terminalid", String.valueOf(punch.getTerminalid()));
-//            punchData.put("punchtypeid", String.valueOf(punch.getPunchtypeid()));
-//            
-//            punchData.put("originaltimestamp", String.valueOf(punch.getOriginaltimestamp()));
-//            punchData.put("adjustedtimestamp", String.valueOf(punch.getAdjustedtime()));
-//            jsonData.add(punchData);
-//        }
-        
-        return null;
+        String json = "";
+        ArrayList<HashMap<String, String>> jsonData = new ArrayList();
+        for (Punch punch : dailypunchlist) 
+        {
+            HashMap<String, String> punchData = new HashMap<>();
+            
+            punchData.put("terminalid", String.valueOf(punch.getTerminalid()));
+            punchData.put("badgeid", String.valueOf(punch.getBadgeid()));
+            punchData.put("id", String.valueOf(punch.getId()));
+            punchData.put("punchtypeid", String.valueOf(punch.getPunchtypeid()));
+            punchData.put("punchdata", String.valueOf(punch.getPunchData()));
+          
+            punchData.put("originaltimestamp", String.valueOf(punch.getOriginaltime().getTimeInMillis()));
+            
+            GregorianCalendar gc = new GregorianCalendar();
+            gc.setTimeInMillis(punch.getAdjustedtime().getTimeInMillis());
+            gc.set(Calendar.SECOND, 0);
+            
+            punchData.put("adjustedtimestamp", String.valueOf(gc.getTimeInMillis()));
+            
+            System.out.println(gc.getTimeInMillis());
+            jsonData.add(punchData);
+        }
+        json = JSONValue.toJSONString(jsonData);
+        return json;
     }
 }

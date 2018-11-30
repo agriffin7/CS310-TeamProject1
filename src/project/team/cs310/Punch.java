@@ -21,6 +21,7 @@ public class Punch
     private int punchtypeid;
     private int TIMESELECT = 9;
     private boolean FLAG;
+    private String punchdata;
     // Constructor with three parameters
     public Punch(Badge badge, int terminalid, int punchtypeid)
     {
@@ -40,7 +41,7 @@ public class Punch
         Date d = new Date(originaltime.getTimeInMillis());
         
         //Pull out the times from cal so we can compare time punches
-        Time time = new Time(d.getHours(), d.getMinutes(), d.getSeconds());
+        Time time = new Time(d.getHours(), d.getMinutes(), 00);
         
  
        //convert the shift over to Time
@@ -50,7 +51,10 @@ public class Punch
        Time LStopTime = new Time(s.getLunchStop().getTime());
        
        // grace Period addition
-       
+       SStartTime.setSeconds(00);
+       SStopTime.setSeconds(00);
+       LStartTime.setSeconds(00);
+       LStopTime.setSeconds(00);
        
        //declare the grace period and penalty deduction
        int GracePeriod = s.getGracePeriod();
@@ -70,24 +74,28 @@ public class Punch
            time.setMinutes(00);
            time.setSeconds(00);
            AdjustedTimeOperation = " (Interval Round)";
+           punchdata = "Interval Round";
        }
        //round to 45 minutes
        else if(time.getMinutes() < 52 && time.getMinutes() >= 37){
            time.setMinutes(45);
            time.setSeconds(00);
            AdjustedTimeOperation = " (Interval Round)";
+           punchdata = "Interval Round";
        }
        //round to 30 minutes
        else if (time.getMinutes() < 37 && time.getMinutes() >= 22){
            time.setMinutes(30);
            time.setSeconds(00);
            AdjustedTimeOperation = " (Interval Round)";
+           punchdata = "Interval Round";
        }
        //round to 15 minutes
        else if (time.getMinutes() < 22 && time.getMinutes() >= 7){
            time.setMinutes(15);
            time.setSeconds(00);
            AdjustedTimeOperation = " (Interval Round)";
+           punchdata = "Interval Round";
        }
        //round to zero minutes
        else if (time.getMinutes() < 7){
@@ -95,6 +103,7 @@ public class Punch
            time.setSeconds(00);
  
            AdjustedTimeOperation = " (Interval Round)";
+           punchdata = "Interval Round";
        }
        
        
@@ -109,8 +118,9 @@ public class Punch
             if(time.before(SStartTime) || time.equals(SStartTime)){
                 adjustedtime.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
                         cal.get(Calendar.DATE), SStartTime.getHours(), SStartTime.getMinutes()-5, 
-                        SStartTime.getSeconds());
+                        00);
                 AdjustedTimeOperation = " (Shift Start)";
+                punchdata = "Shift Start";
                 TIMESELECT = 1;
                 FLAG = true;
             }
@@ -119,8 +129,9 @@ public class Punch
             if (time.after(SStartTime) && time.before(LStartTime)){
                 adjustedtime.set(cal.get(Calendar.YEAR),cal.get(Calendar.MONTH),
                         cal.get(Calendar.DATE),SStartTime.getHours(),SStartTime.getMinutes()+10,
-                        SStartTime.getSeconds());
+                        00);
                 AdjustedTimeOperation = " (Shift Dock)";
+                punchdata = "Shift Dock";
             }
              // Check if time is after Lunch Start and Before Lunch End, If so
             // shift the clockouts to correct times
@@ -129,14 +140,16 @@ public class Punch
                 if(time.getMinutes() >= 16){
                     adjustedtime.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
                             cal.get(Calendar.DATE), LStopTime.getHours(),
-                            LStopTime.getMinutes(), LStopTime.getSeconds());
+                            LStopTime.getMinutes(), 00);
                     AdjustedTimeOperation = " (Lunch Stop)";
+                    punchdata = "Lunch Stop";
                 }
                 if(time.getMinutes() < 16){
                     adjustedtime.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
                             cal.get(Calendar.DATE), LStartTime.getHours(),
-                            LStartTime.getMinutes(), LStartTime.getSeconds());
+                            LStartTime.getMinutes(), 00);
                     AdjustedTimeOperation = " (Lunch Start)";
+                    punchdata = "Lunch Start";
                 }
            
             }
@@ -147,8 +160,9 @@ public class Punch
 
                 adjustedtime.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
                         cal.get(Calendar.DATE), SStopTime.getHours(), SStopTime.getMinutes()-10,
-                        SStopTime.getSeconds());
+                        00);
                 AdjustedTimeOperation = " (Shift Dock)";
+                punchdata = "Shift Dock";
                 
                 //this is to fix a weird bug. Im not entirely sure WHY only
                 // this badgeID acts weird with the AdjustedTimeOperation note.
@@ -156,18 +170,20 @@ public class Punch
                 // that goofs.
                 if(getBadgeid().equals("D2C39273")){
                     AdjustedTimeOperation = " (Interval Round)";
+                    punchdata = "Interval Round";
                 }
            
             }
             //if time is after Shift Stop, adjust back to correct clockout
-            Time diddlydoo = new Time(SStopTime.getHours()+1, SStopTime.getMinutes(), SStopTime.getSeconds());
+            Time diddlydoo = new Time(SStopTime.getHours()+1, SStopTime.getMinutes(), 00);
             if (time.after(SStopTime) || time.equals(SStopTime)){
                 if(time.before(diddlydoo)){
                     adjustedtime.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
                         cal.get(Calendar.DATE), SStopTime.getHours(), 
-                        SStopTime.getMinutes()+5, SStopTime.getSeconds());
+                        SStopTime.getMinutes()+5, 00);
                 
                     AdjustedTimeOperation = " (Shift Stop)";
+                    punchdata = "Shift Stop";
                     TIMESELECT = 0;
                     FLAG = false;
                 }
@@ -177,6 +193,7 @@ public class Punch
                         time.getMinutes(), 00);
                 
                     AdjustedTimeOperation = " (None)"; 
+                    punchdata = "None";
                 }
             }
 
@@ -186,10 +203,11 @@ public class Punch
        if(cal.get(Calendar.DAY_OF_WEEK) == 7 || cal.get(Calendar.DAY_OF_WEEK) == 1){
            adjustedtime.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
                         cal.get(Calendar.DATE), time.getHours(), 
-                        time.getMinutes(), time.getSeconds());
+                        time.getMinutes(), 00);
        }
        
-       
+       adjustedtime.set(Calendar.SECOND, 0);
+       adjustedtime.set(Calendar.MILLISECOND, 0);
        
     }
     //This is to print the original time value
@@ -294,6 +312,9 @@ public class Punch
     }
     public boolean getFLAG(){
         return FLAG;
+    }
+    public String getPunchData(){
+        return punchdata;
     }
 
 }
